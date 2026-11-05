@@ -1,0 +1,1188 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Changelog" href="changelog.html"><link rel="prev" title="CLI reference" href="cli.html">
+
+    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+        <title>API reference - Orthorhombify</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=229dbbdc" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #2980B9;
+  --color-brand-content: #2980B9;
+  --color-sidebar-background: #2980B9;
+  --color-sidebar-background-border: #2980B9;
+  --color-sidebar-brand-text: #ffffff;
+  --color-sidebar-caption-text: #e8f4fc;
+  --color-sidebar-link-text: #ffffff;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-item-background--hover: #3091d1;
+  --color-sidebar-item-background--current: #3091d1;
+  --color-sidebar-item-expander-background--hover: #3091d1;
+  --color-sidebar-search-background: #2472a4;
+  --color-sidebar-search-background--focus: #2472a4;
+  --color-sidebar-search-border: #2472a4;
+  --color-sidebar-search-text: #ffffff;
+  --color-sidebar-search-foreground: #ffffff;
+  --color-sidebar-search-icon: #ffffff;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #5dade2;
+  --color-brand-content: #5dade2;
+  --color-sidebar-background: #131416;
+  --color-sidebar-background-border: #303335;
+  --color-sidebar-brand-text: #ffffff;
+  --color-sidebar-caption-text: #8b8b8d;
+  --color-sidebar-link-text: #d0d0d0;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-item-background--hover: #1a1c1e;
+  --color-sidebar-item-background--current: #1a1c1e;
+  --color-sidebar-item-expander-background--hover: #1a1c1e;
+  --color-sidebar-search-background: #202020;
+  --color-sidebar-search-background--focus: #202020;
+  --color-sidebar-search-border: #303335;
+  --color-sidebar-search-text: #d0d0d0;
+  --color-sidebar-search-foreground: #d0d0d0;
+  --color-sidebar-search-icon: #8b8b8d;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #5dade2;
+  --color-brand-content: #5dade2;
+  --color-sidebar-background: #131416;
+  --color-sidebar-background-border: #303335;
+  --color-sidebar-brand-text: #ffffff;
+  --color-sidebar-caption-text: #8b8b8d;
+  --color-sidebar-link-text: #d0d0d0;
+  --color-sidebar-link-text--top-level: #ffffff;
+  --color-sidebar-item-background--hover: #1a1c1e;
+  --color-sidebar-item-background--current: #1a1c1e;
+  --color-sidebar-item-expander-background--hover: #1a1c1e;
+  --color-sidebar-search-background: #202020;
+  --color-sidebar-search-background--focus: #202020;
+  --color-sidebar-search-border: #303335;
+  --color-sidebar-search-text: #d0d0d0;
+  --color-sidebar-search-foreground: #d0d0d0;
+  --color-sidebar-search-icon: #8b8b8d;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Orthorhombify</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">Orthorhombify</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orthorhombify.html">Orthorhombify (the supercell search)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lattice-directions.html">Lattice directions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lammps.html">LAMMPS files and charges</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">Going back and other cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">Using it from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/Awwal41/orthorhombify/blob/main/docs/api.rst?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/Awwal41/orthorhombify/edit/main/docs/api.rst" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="api-reference">
+<h1>API reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
+<p>Everything below is importable from the top-level package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">orthorhombify</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">orth</span>
+</pre></div>
+</div>
+<section id="supercells">
+<h2>Supercells<a class="headerlink" href="#supercells" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.find_supercells">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">find_supercells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vectors'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anis_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unimod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_on_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#find_supercells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.find_supercells" title="Link to this definition">¶</a></dt>
+<dd><p>Find integer supercells whose angles are as close to 90 degrees as possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> – ASE <code class="docutils literal notranslate"><span class="pre">Atoms</span></code>, a 3x3 cell matrix, or <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma]</span></code>.</p></li>
+<li><p><strong>max_cells</strong> (<em>int</em>) – Largest supercell to try, in unit cells.</p></li>
+<li><p><strong>top</strong> (<em>int</em>) – How many candidates to return (best first).</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (pick the search from the cell shape), <code class="docutils literal notranslate"><span class="pre">&quot;monoclinic&quot;</span></code> (2D
+search around the unique axis) or <code class="docutils literal notranslate"><span class="pre">&quot;triclinic&quot;</span></code> (3D search).</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – 3D search only. <code class="docutils literal notranslate"><span class="pre">&quot;vectors&quot;</span></code> (default; fast, searches all short
+lattice vectors) or <code class="docutils literal notranslate"><span class="pre">&quot;hnf&quot;</span></code> (the original v1 search).</p></li>
+<li><p><strong>angle_tol</strong> (<em>float</em>) – Detection tolerance: an angle within this many degrees counts as 90.</p></li>
+<li><p><strong>tol</strong> (<em>float</em><em> | </em><em>None</em>) – Return the <em>smallest</em> supercells within <code class="docutils literal notranslate"><span class="pre">tol</span></code> degrees first. With
+<code class="docutils literal notranslate"><span class="pre">method=&quot;hnf&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">stop_on_tol</span></code>: stop once the summed deviation &lt;= 3*tol.</p></li>
+<li><p><strong>anis_max</strong> (<em>float</em><em> | </em><em>None</em>) – Skip boxes whose longest/shortest edge ratio exceeds this.</p></li>
+<li><p><strong>max_index</strong> (<em>int</em><em> | </em><em>None</em>) – Largest integer coefficient tried for the new axes.
+Default 12 for the 2D search and 5 for the 3D search.</p></li>
+<li><p><strong>unimod</strong> (<em>int</em>) – <code class="docutils literal notranslate"><span class="pre">method=&quot;hnf&quot;</span></code> controls (see the CLI docs).</p></li>
+<li><p><strong>fast</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">method=&quot;hnf&quot;</span></code> controls (see the CLI docs).</p></li>
+<li><p><strong>gate</strong> (<em>float</em><em> | </em><em>None</em>) – <code class="docutils literal notranslate"><span class="pre">method=&quot;hnf&quot;</span></code> controls (see the CLI docs).</p></li>
+<li><p><strong>stop_on_tol</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">method=&quot;hnf&quot;</span></code> controls (see the CLI docs).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of <a class="reference internal" href="#orthorhombify.Candidate" title="orthorhombify.Candidate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Candidate</span></code></a>, best first. Cells that are already
+orthogonal (cubic, tetragonal, orthorhombic) return the identity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#orthorhombify.Candidate" title="orthorhombify.core.Candidate"><em>Candidate</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="orthorhombify.Candidate">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">Candidate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lengths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cells</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sum_dev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anisotropy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#Candidate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.Candidate" title="Link to this definition">¶</a></dt>
+<dd><p>One supercell found by <a class="reference internal" href="#orthorhombify.find_supercells" title="orthorhombify.find_supercells"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_supercells()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>lengths</strong> (<em>tuple</em>)</p></li>
+<li><p><strong>angles</strong> (<em>tuple</em>)</p></li>
+<li><p><strong>n_cells</strong> (<em>int</em>)</p></li>
+<li><p><strong>max_dev</strong> (<em>float</em>)</p></li>
+<li><p><strong>sum_dev</strong> (<em>float</em>)</p></li>
+<li><p><strong>anisotropy</strong> (<em>float</em>)</p></li>
+<li><p><strong>volume</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.P">
+<span class="sig-name descname"><span class="pre">P</span></span><a class="headerlink" href="#orthorhombify.Candidate.P" title="Link to this definition">¶</a></dt>
+<dd><p>3x3 integer matrix, <code class="docutils literal notranslate"><span class="pre">new_cell_rows</span> <span class="pre">=</span> <span class="pre">P</span> <span class="pre">&#64;</span> <span class="pre">old_cell_rows</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.lengths">
+<span class="sig-name descname"><span class="pre">lengths</span></span><a class="headerlink" href="#orthorhombify.Candidate.lengths" title="Link to this definition">¶</a></dt>
+<dd><p>New cell lengths a, b, c (Å).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.angles">
+<span class="sig-name descname"><span class="pre">angles</span></span><a class="headerlink" href="#orthorhombify.Candidate.angles" title="Link to this definition">¶</a></dt>
+<dd><p>New cell angles alpha, beta, gamma (degrees).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.n_cells">
+<span class="sig-name descname"><span class="pre">n_cells</span></span><a class="headerlink" href="#orthorhombify.Candidate.n_cells" title="Link to this definition">¶</a></dt>
+<dd><p>Number of unit cells in the supercell, <code class="docutils literal notranslate"><span class="pre">|det(P)|</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.max_dev">
+<span class="sig-name descname"><span class="pre">max_dev</span></span><a class="headerlink" href="#orthorhombify.Candidate.max_dev" title="Link to this definition">¶</a></dt>
+<dd><p>Largest deviation of any angle from 90 degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.sum_dev">
+<span class="sig-name descname"><span class="pre">sum_dev</span></span><a class="headerlink" href="#orthorhombify.Candidate.sum_dev" title="Link to this definition">¶</a></dt>
+<dd><p>Sum of the three angle deviations from 90 degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.anisotropy">
+<span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#orthorhombify.Candidate.anisotropy" title="Link to this definition">¶</a></dt>
+<dd><p>Longest edge divided by the shortest edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#orthorhombify.Candidate.volume" title="Link to this definition">¶</a></dt>
+<dd><p>Supercell volume (Å^3).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_orthogonal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#Candidate.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.Candidate.build" title="Link to this definition">¶</a></dt>
+<dd><p>Build this supercell from <code class="docutils literal notranslate"><span class="pre">atoms</span></code>. See <a class="reference internal" href="#orthorhombify.build_supercell" title="orthorhombify.build_supercell"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_supercell()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>)</p></li>
+<li><p><strong>force_orthogonal</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Atoms</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="orthorhombify.Candidate.mapping">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">mapping</span></span><a class="headerlink" href="#orthorhombify.Candidate.mapping" title="Link to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#orthorhombify.LatticeMapping" title="orthorhombify.LatticeMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">LatticeMapping</span></code></a> between the input cell and this supercell.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.best_angle_by_size">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">best_angle_by_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#best_angle_by_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.best_angle_by_size" title="Link to this definition">¶</a></dt>
+<dd><p>The best achievable angle deviation using at most N unit cells.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">{N:</span> <span class="pre">max_dev_degrees}</span></code> for N = 1..max_cells. Empty for cells that are
+already orthogonal.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>max_cells</strong> (<em>int</em>)</p></li>
+<li><p><strong>max_index</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>angle_tol</strong> (<em>float</em>)</p></li>
+<li><p><strong>mode</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.detect_system">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">detect_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#detect_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.detect_system" title="Link to this definition">¶</a></dt>
+<dd><p>Classify a cell by its shape (lengths and angles, not by symmetry).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cell</strong> – ASE <code class="docutils literal notranslate"><span class="pre">Atoms</span></code>, a 3x3 cell matrix, or <code class="docutils literal notranslate"><span class="pre">[a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma]</span></code>.</p></li>
+<li><p><strong>angle_tol</strong> (<em>float</em>) – Two angles are equal if within this many degrees.</p></li>
+<li><p><strong>length_tol</strong> (<em>float</em>) – Two lengths are equal if within this relative difference.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">(system,</span> <span class="pre">unique_axis)</span></code>. <code class="docutils literal notranslate"><span class="pre">system</span></code> is one of <code class="docutils literal notranslate"><span class="pre">&quot;cubic&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;tetragonal&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;orthorhombic&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;hexagonal&quot;</span></code> (two equal edges at 120 or 60 degrees),
+<code class="docutils literal notranslate"><span class="pre">&quot;monoclinic&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;rhombohedral&quot;</span></code> (equal edges, three equal angles) or
+<code class="docutils literal notranslate"><span class="pre">&quot;triclinic&quot;</span></code>. <code class="docutils literal notranslate"><span class="pre">unique_axis</span></code> is 0, 1 or 2 (a, b, c) for hexagonal and
+monoclinic cells (the axis at 90 degrees to the other two), otherwise <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.build_supercell">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">build_supercell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_orthogonal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#build_supercell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.build_supercell" title="Link to this definition">¶</a></dt>
+<dd><p>Build the supercell <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&#64;</span> <span class="pre">cell</span></code> of <code class="docutils literal notranslate"><span class="pre">atoms</span></code>.</p>
+<p>The result is rigidly rotated to the standard orientation (a along x, b in the
+xy plane) and atoms are wrapped into the box. No strain is applied unless
+<code class="docutils literal notranslate"><span class="pre">force_orthogonal</span></code> is set, which makes the box exactly 90/90/90 while keeping
+fractional coordinates; the largest Green-Lagrange strain component is stored
+in <code class="docutils literal notranslate"><span class="pre">result.info[&quot;orthorhombify_strain&quot;]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>)</p></li>
+<li><p><strong>force_orthogonal</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Atoms</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.min_distance">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">min_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/core.html#min_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.min_distance" title="Link to this definition">¶</a></dt>
+<dd><p>Shortest interatomic distance (Å), including periodic images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>)</p></li>
+<li><p><strong>cutoff</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="lattice-directions">
+<h2>Lattice directions<a class="headerlink" href="#lattice-directions" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">LatticeMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping" title="Link to this definition">¶</a></dt>
+<dd><p>Axes, directions and planes of an old cell expressed in a new cell, and back.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>P</strong> – 3x3 transformation, <code class="docutils literal notranslate"><span class="pre">new_cell_rows</span> <span class="pre">=</span> <span class="pre">P</span> <span class="pre">&#64;</span> <span class="pre">old_cell_rows</span></code>. Integers,
+floats or fraction strings (<code class="docutils literal notranslate"><span class="pre">&quot;1/2&quot;</span></code>) are all fine.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">LatticeMapping</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="n">m</span><span class="o">.</span><span class="n">new_axis_expressions</span><span class="p">()</span>      <span class="c1"># ["a + c", "b", "-4a + 3c"]</span>
+<span class="n">m</span><span class="o">.</span><span class="n">direction_to_new</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># old [110] in new-cell coordinates</span>
+<span class="n">m</span><span class="o">.</span><span class="n">plane_to_old</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>     <span class="c1"># Miller indices of the new (001) plane in the old cell</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.direction_to_new">
+<span class="sig-name descname"><span class="pre">direction_to_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uvw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.direction_to_new"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.direction_to_new" title="Link to this definition">¶</a></dt>
+<dd><p>Old-cell direction [uvw] in new-cell coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<em>Fraction</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.direction_to_old">
+<span class="sig-name descname"><span class="pre">direction_to_old</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uvw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.direction_to_old"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.direction_to_old" title="Link to this definition">¶</a></dt>
+<dd><p>New-cell direction [uvw] in old-cell coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<em>Fraction</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.plane_to_new">
+<span class="sig-name descname"><span class="pre">plane_to_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hkl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.plane_to_new"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.plane_to_new" title="Link to this definition">¶</a></dt>
+<dd><p>Old-cell plane (hkl) as new-cell Miller indices (smallest integers).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.plane_to_old">
+<span class="sig-name descname"><span class="pre">plane_to_old</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hkl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.plane_to_old"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.plane_to_old" title="Link to this definition">¶</a></dt>
+<dd><p>New-cell plane (hkl) as old-cell Miller indices (smallest integers).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.inverse" title="Link to this definition">¶</a></dt>
+<dd><p>The mapping from the new cell back to the old one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#orthorhombify.LatticeMapping" title="orthorhombify.mapping.LatticeMapping"><em>LatticeMapping</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.new_axis_expressions">
+<span class="sig-name descname"><span class="pre">new_axis_expressions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.new_axis_expressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.new_axis_expressions" title="Link to this definition">¶</a></dt>
+<dd><p>Each new axis as a combination of old axes, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;a</span> <span class="pre">+</span> <span class="pre">c&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.old_axis_expressions">
+<span class="sig-name descname"><span class="pre">old_axis_expressions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.old_axis_expressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.old_axis_expressions" title="Link to this definition">¶</a></dt>
+<dd><p>Each old axis as a combination of new axes, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;(3/7)a'</span> <span class="pre">-</span> <span class="pre">(1/7)c'&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.new_axes_as_old_directions">
+<span class="sig-name descname"><span class="pre">new_axes_as_old_directions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.new_axes_as_old_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.new_axes_as_old_directions" title="Link to this definition">¶</a></dt>
+<dd><p>Direction [uvw] (old cell) that each new axis points along.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.old_axes_as_new_directions">
+<span class="sig-name descname"><span class="pre">old_axes_as_new_directions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.old_axes_as_new_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.old_axes_as_new_directions" title="Link to this definition">¶</a></dt>
+<dd><p>Direction [uvw] (new cell) that each old axis points along.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.axis_angles">
+<span class="sig-name descname"><span class="pre">axis_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_cell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.axis_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.axis_angles" title="Link to this definition">¶</a></dt>
+<dd><p>Angle (degrees) between each new axis and the old axis of the same name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span>&#160; <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.summary" title="Link to this definition">¶</a></dt>
+<dd><p>Human-readable table of axes and planes (old = a, b, c; new = a’, b’, c’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>indent</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orthorhombify.LatticeMapping.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#LatticeMapping.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LatticeMapping.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>JSON-friendly description (fractions written as strings).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.write_mapping_json">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">write_mapping_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_atoms</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/mapping.html#write_mapping_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.write_mapping_json" title="Link to this definition">¶</a></dt>
+<dd><p>Save a mapping plus both cells, so the transformation can be undone later
+(<code class="docutils literal notranslate"><span class="pre">orthorhombify-transform</span> <span class="pre">--inverse</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>)</p></li>
+<li><p><strong>mapping</strong> (<a class="reference internal" href="#orthorhombify.LatticeMapping" title="orthorhombify.mapping.LatticeMapping"><em>LatticeMapping</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="other-cells-and-going-back">
+<h2>Other cells and going back<a class="headerlink" href="#other-cells-and-going-back" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.transform">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/transform.html#transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.transform" title="Link to this definition">¶</a></dt>
+<dd><p>Build the cell <code class="docutils literal notranslate"><span class="pre">matrix</span> <span class="pre">&#64;</span> <span class="pre">cell</span></code> of <code class="docutils literal notranslate"><span class="pre">atoms</span></code> and fill it with the right atoms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>) – The structure.</p></li>
+<li><p><strong>matrix</strong> – 3x3 transformation (ints, floats, fraction strings), or text in the
+command-line form such as <code class="docutils literal notranslate"><span class="pre">&quot;1</span> <span class="pre">0</span> <span class="pre">0;</span> <span class="pre">-1/2</span> <span class="pre">1/2</span> <span class="pre">0;</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">1&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;2</span> <span class="pre">2</span> <span class="pre">1&quot;</span></code>.
+<code class="docutils literal notranslate"><span class="pre">new_cell_rows</span> <span class="pre">=</span> <span class="pre">matrix</span> <span class="pre">&#64;</span> <span class="pre">old_cell_rows</span></code>.</p></li>
+<li><p><strong>reduce</strong> (<em>str</em>) – Only used when the new cell is <em>smaller</em> (fractional matrix).
+<code class="docutils literal notranslate"><span class="pre">&quot;average&quot;</span></code> averages every copy of each atom, which is the right choice
+for a supercell built by Orthorhombify (copies are stored one after another),
+including after an MD run. <code class="docutils literal notranslate"><span class="pre">&quot;dedup&quot;</span></code> folds all atoms into the new cell and
+merges atoms of the same element closer than <code class="docutils literal notranslate"><span class="pre">tol</span></code>. <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> uses
+average if the atom order allows it, otherwise dedup.</p></li>
+<li><p><strong>tol</strong> (<em>float</em>) – Distance (Å) under which folded atoms count as the same atom (dedup), and
+the largest allowed spread between copies of one atom (average).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New <code class="docutils literal notranslate"><span class="pre">Atoms</span></code> in the standard orientation (a along x, b in the xy plane).
+<code class="docutils literal notranslate"><span class="pre">info[&quot;orthorhombify_reduce&quot;]</span></code> records which method was used and
+<code class="docutils literal notranslate"><span class="pre">info[&quot;orthorhombify_P&quot;]</span></code> the matrix (as fraction strings).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Atoms</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.back_to_original">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">back_to_original</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_json</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/transform.html#back_to_original"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.back_to_original" title="Link to this definition">¶</a></dt>
+<dd><p>Undo an Orthorhombify step: go from the (equilibrated) supercell back to the
+original cell, using the <code class="docutils literal notranslate"><span class="pre">*_orth_N.json</span></code> file written next to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>) – The supercell, for example read from the LAMMPS <code class="docutils literal notranslate"><span class="pre">*_equil.data</span></code> file.</p></li>
+<li><p><strong>mapping_json</strong> (<em>str</em>) – The <code class="docutils literal notranslate"><span class="pre">.json</span></code> file written by <code class="docutils literal notranslate"><span class="pre">orthorhombify</span></code>.</p></li>
+<li><p><strong>replicate</strong> – <code class="docutils literal notranslate"><span class="pre">(nx,</span> <span class="pre">ny,</span> <span class="pre">nz)</span></code> if the box was replicated in LAMMPS. Worked out
+from the atom count and box lengths if not given.</p></li>
+<li><p><strong>reduce</strong> (<em>str</em>) – See <a class="reference internal" href="#orthorhombify.transform" title="orthorhombify.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform()</span></code></a>.</p></li>
+<li><p><strong>tol</strong> (<em>float</em>) – See <a class="reference internal" href="#orthorhombify.transform" title="orthorhombify.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The structure in the original cell. <code class="docutils literal notranslate"><span class="pre">info[&quot;orthorhombify_replicate&quot;]</span></code> records
+the replication that was undone.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Atoms</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.guess_replicate">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">guess_replicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/transform.html#guess_replicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.guess_replicate" title="Link to this definition">¶</a></dt>
+<dd><p>Replication of the saved supercell that best matches <code class="docutils literal notranslate"><span class="pre">atoms</span></code> (box lengths).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>)</p></li>
+<li><p><strong>data</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.parse_matrix">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">parse_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/transform.html#parse_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.parse_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Parse a matrix written as text.</p>
+<p>Rows are separated by <code class="docutils literal notranslate"><span class="pre">;</span></code>, numbers by spaces or commas, and fractions are
+allowed. Three numbers mean a diagonal matrix.</p>
+<p>Examples: <code class="docutils literal notranslate"><span class="pre">&quot;1</span> <span class="pre">0</span> <span class="pre">1;</span> <span class="pre">0</span> <span class="pre">1</span> <span class="pre">0;</span> <span class="pre">-4</span> <span class="pre">0</span> <span class="pre">3&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;1/2</span> <span class="pre">-1/2</span> <span class="pre">0;</span> <span class="pre">1/2</span> <span class="pre">1/2</span> <span class="pre">0;</span> <span class="pre">0</span> <span class="pre">0</span> <span class="pre">1&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;2</span> <span class="pre">2</span> <span class="pre">1&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[<em>Fraction</em>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="lammps-and-charges">
+<h2>LAMMPS and charges<a class="headerlink" href="#lammps-and-charges" title="Link to this heading">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="orthorhombify.DEFAULT_CHARGES">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_CHARGES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{&quot;O&quot;:</span> <span class="pre">-0.3668,</span> <span class="pre">&quot;N&quot;:</span> <span class="pre">0.3668,</span> <span class="pre">&quot;C&quot;:</span> <span class="pre">-0.4320,</span> <span class="pre">&quot;H&quot;:</span> <span class="pre">0.2160}</span></span><a class="headerlink" href="#orthorhombify.DEFAULT_CHARGES" title="Link to this definition">¶</a></dt>
+<dd><p>Starting charge (e) of each element, used when no <code class="docutils literal notranslate"><span class="pre">charges</span></code> are given.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.write_lammps_inputs">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">write_lammps_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neutralize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ffield.reax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lgvdw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">press</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nvt_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npt_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barostat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aniso'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4928459</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/lammps.html#write_lammps_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.write_lammps_inputs" title="Link to this definition">¶</a></dt>
+<dd><p>Write <code class="docutils literal notranslate"><span class="pre">&lt;outdir&gt;/&lt;name&gt;.data</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;outdir&gt;/in.&lt;name&gt;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>) – The structure (any cell; LAMMPS tilt factors are written if needed).</p></li>
+<li><p><strong>outdir</strong> (<em>str</em>) – Folder to write into (created if missing).</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Base name of the files.</p></li>
+<li><p><strong>charges</strong> (<em>dict</em><em> | </em><em>None</em>) – <code class="docutils literal notranslate"><span class="pre">{element:</span> <span class="pre">charge}</span></code> overrides; defaults are <a class="reference internal" href="#orthorhombify.DEFAULT_CHARGES" title="orthorhombify.DEFAULT_CHARGES"><code class="xref py py-data docutils literal notranslate"><span class="pre">DEFAULT_CHARGES</span></code></a>.</p></li>
+<li><p><strong>neutralize</strong> (<em>bool</em>) – Shift every charge by the same amount so the total is zero.</p></li>
+<li><p><strong>ffield</strong> (<em>str</em>) – ReaxFF force-field file name used in <code class="docutils literal notranslate"><span class="pre">pair_coeff</span></code>.</p></li>
+<li><p><strong>lgvdw</strong> (<em>bool</em>) – Force field is ReaxFF-lg (adds <code class="docutils literal notranslate"><span class="pre">lgvdw</span> <span class="pre">yes</span></code>).</p></li>
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature (K).</p></li>
+<li><p><strong>press</strong> (<em>float</em>) – Pressure (atm).</p></li>
+<li><p><strong>timestep</strong> (<em>float</em>) – Timestep (fs).</p></li>
+<li><p><strong>nvt_steps</strong> (<em>int</em>) – Number of NVT steps.</p></li>
+<li><p><strong>npt_steps</strong> (<em>int</em>) – Number of NPT steps.</p></li>
+<li><p><strong>barostat</strong> (<em>str</em>) – <code class="docutils literal notranslate"><span class="pre">&quot;aniso&quot;</span></code> (keeps angles), <code class="docutils literal notranslate"><span class="pre">&quot;iso&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;tri&quot;</span></code> (relaxes angles).</p></li>
+<li><p><strong>minimize</strong> (<em>bool</em>) – Run an energy minimization first.</p></li>
+<li><p><strong>replicate</strong> – <code class="docutils literal notranslate"><span class="pre">(nx,</span> <span class="pre">ny,</span> <span class="pre">nz)</span></code> to add a <code class="docutils literal notranslate"><span class="pre">replicate</span></code> command after <code class="docutils literal notranslate"><span class="pre">read_data</span></code>.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – Random seed for the starting velocities.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#orthorhombify.LammpsFiles" title="orthorhombify.lammps.LammpsFiles"><em>LammpsFiles</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.assign_charges">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">assign_charges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neutralize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/lammps.html#assign_charges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.assign_charges" title="Link to this definition">¶</a></dt>
+<dd><p>Per-atom charges from per-element values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>) – The structure.</p></li>
+<li><p><strong>charges</strong> (<em>dict</em><em> | </em><em>None</em>) – <code class="docutils literal notranslate"><span class="pre">{element:</span> <span class="pre">charge}</span></code>. Missing entries fall back to
+<a class="reference internal" href="#orthorhombify.DEFAULT_CHARGES" title="orthorhombify.DEFAULT_CHARGES"><code class="xref py py-data docutils literal notranslate"><span class="pre">DEFAULT_CHARGES</span></code></a>.</p></li>
+<li><p><strong>neutralize</strong> (<em>bool</em>) – Shift every charge by the same amount so the total is zero.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – An element in <code class="docutils literal notranslate"><span class="pre">atoms</span></code> has no charge.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#orthorhombify.ChargeInfo" title="orthorhombify.lammps.ChargeInfo"><em>ChargeInfo</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.suggest_replicate">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">suggest_replicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/lammps.html#suggest_replicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.suggest_replicate" title="Link to this definition">¶</a></dt>
+<dd><p>Replication <code class="docutils literal notranslate"><span class="pre">(nx,</span> <span class="pre">ny,</span> <span class="pre">nz)</span></code> that makes every box edge &gt;= <code class="docutils literal notranslate"><span class="pre">min_length</span></code>.</p>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if the box (times <code class="docutils literal notranslate"><span class="pre">replicate</span></code>, if given) is already big enough.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>)</p></li>
+<li><p><strong>min_length</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.make_input_script">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">make_input_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ffield.reax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lgvdw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">press</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nvt_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npt_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barostat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aniso'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4928459</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/lammps.html#make_input_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.make_input_script" title="Link to this definition">¶</a></dt>
+<dd><p>Text of the LAMMPS input script (see <a class="reference internal" href="#orthorhombify.write_lammps_inputs" title="orthorhombify.write_lammps_inputs"><code class="xref py py-func docutils literal notranslate"><span class="pre">write_lammps_inputs()</span></code></a> for arguments).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>Atoms</em>)</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>)</p></li>
+<li><p><strong>ffield</strong> (<em>str</em>)</p></li>
+<li><p><strong>lgvdw</strong> (<em>bool</em>)</p></li>
+<li><p><strong>temp</strong> (<em>float</em>)</p></li>
+<li><p><strong>press</strong> (<em>float</em>)</p></li>
+<li><p><strong>timestep</strong> (<em>float</em>)</p></li>
+<li><p><strong>nvt_steps</strong> (<em>int</em>)</p></li>
+<li><p><strong>npt_steps</strong> (<em>int</em>)</p></li>
+<li><p><strong>barostat</strong> (<em>str</em>)</p></li>
+<li><p><strong>minimize</strong> (<em>bool</em>)</p></li>
+<li><p><strong>seed</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="orthorhombify.ChargeInfo">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">ChargeInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net_before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_element</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/lammps.html#ChargeInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.ChargeInfo" title="Link to this definition">¶</a></dt>
+<dd><p>Charges assigned by <a class="reference internal" href="#orthorhombify.assign_charges" title="orthorhombify.assign_charges"><code class="xref py py-func docutils literal notranslate"><span class="pre">assign_charges()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>charges</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>net_before</strong> (<em>float</em>)</p></li>
+<li><p><strong>shift</strong> (<em>float</em>)</p></li>
+<li><p><strong>per_element</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.ChargeInfo.charges">
+<span class="sig-name descname"><span class="pre">charges</span></span><a class="headerlink" href="#orthorhombify.ChargeInfo.charges" title="Link to this definition">¶</a></dt>
+<dd><p>Per-atom charges (e), in atom order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.ChargeInfo.net_before">
+<span class="sig-name descname"><span class="pre">net_before</span></span><a class="headerlink" href="#orthorhombify.ChargeInfo.net_before" title="Link to this definition">¶</a></dt>
+<dd><p>Total charge before neutralizing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.ChargeInfo.shift">
+<span class="sig-name descname"><span class="pre">shift</span></span><a class="headerlink" href="#orthorhombify.ChargeInfo.shift" title="Link to this definition">¶</a></dt>
+<dd><p>Amount added to every charge (0 if not neutralized).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orthorhombify.ChargeInfo.per_element">
+<span class="sig-name descname"><span class="pre">per_element</span></span><a class="headerlink" href="#orthorhombify.ChargeInfo.per_element" title="Link to this definition">¶</a></dt>
+<dd><p>Final charge of each element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="orthorhombify.LammpsFiles">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">LammpsFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify/lammps.html#LammpsFiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.LammpsFiles" title="Link to this definition">¶</a></dt>
+<dd><p>Paths and charge details returned by <a class="reference internal" href="#orthorhombify.write_lammps_inputs" title="orthorhombify.write_lammps_inputs"><code class="xref py py-func docutils literal notranslate"><span class="pre">write_lammps_inputs()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_file</strong> (<em>str</em>)</p></li>
+<li><p><strong>input_file</strong> (<em>str</em>)</p></li>
+<li><p><strong>types</strong> (<em>list</em>)</p></li>
+<li><p><strong>charges</strong> (<a class="reference internal" href="#orthorhombify.ChargeInfo" title="orthorhombify.lammps.ChargeInfo"><em>ChargeInfo</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="orthorhombify.example_path">
+<span class="sig-prename descclassname"><span class="pre">orthorhombify.</span></span><span class="sig-name descname"><span class="pre">example_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'beta_HMX'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orthorhombify.html#example_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orthorhombify.example_path" title="Link to this definition">¶</a></dt>
+<dd><p>Path to a bundled example CIF. Available: <code class="docutils literal notranslate"><span class="pre">&quot;beta_HMX&quot;</span></code> (COD 4110146).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="changelog.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Changelog</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="cli.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">CLI reference</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Awwal Oladipupo
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/Awwal41/orthorhombify" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                    0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52
+                    -.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2
+                    -3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64
+                    -.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08
+                    2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01
+                    1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">API reference</a><ul>
+<li><a class="reference internal" href="#supercells">Supercells</a><ul>
+<li><a class="reference internal" href="#orthorhombify.find_supercells"><code class="docutils literal notranslate"><span class="pre">find_supercells()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate"><code class="docutils literal notranslate"><span class="pre">Candidate</span></code></a><ul>
+<li><a class="reference internal" href="#orthorhombify.Candidate.P"><code class="docutils literal notranslate"><span class="pre">Candidate.P</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.lengths"><code class="docutils literal notranslate"><span class="pre">Candidate.lengths</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.angles"><code class="docutils literal notranslate"><span class="pre">Candidate.angles</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.n_cells"><code class="docutils literal notranslate"><span class="pre">Candidate.n_cells</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.max_dev"><code class="docutils literal notranslate"><span class="pre">Candidate.max_dev</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.sum_dev"><code class="docutils literal notranslate"><span class="pre">Candidate.sum_dev</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.anisotropy"><code class="docutils literal notranslate"><span class="pre">Candidate.anisotropy</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.volume"><code class="docutils literal notranslate"><span class="pre">Candidate.volume</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.build"><code class="docutils literal notranslate"><span class="pre">Candidate.build()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.Candidate.mapping"><code class="docutils literal notranslate"><span class="pre">Candidate.mapping</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#orthorhombify.best_angle_by_size"><code class="docutils literal notranslate"><span class="pre">best_angle_by_size()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.detect_system"><code class="docutils literal notranslate"><span class="pre">detect_system()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.build_supercell"><code class="docutils literal notranslate"><span class="pre">build_supercell()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.min_distance"><code class="docutils literal notranslate"><span class="pre">min_distance()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lattice-directions">Lattice directions</a><ul>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping"><code class="docutils literal notranslate"><span class="pre">LatticeMapping</span></code></a><ul>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.direction_to_new"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.direction_to_new()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.direction_to_old"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.direction_to_old()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.plane_to_new"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.plane_to_new()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.plane_to_old"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.plane_to_old()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.inverse"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.inverse()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.new_axis_expressions"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.new_axis_expressions()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.old_axis_expressions"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.old_axis_expressions()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.new_axes_as_old_directions"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.new_axes_as_old_directions()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.old_axes_as_new_directions"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.old_axes_as_new_directions()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.axis_angles"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.axis_angles()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.summary"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.summary()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.LatticeMapping.to_dict"><code class="docutils literal notranslate"><span class="pre">LatticeMapping.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#orthorhombify.write_mapping_json"><code class="docutils literal notranslate"><span class="pre">write_mapping_json()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-cells-and-going-back">Other cells and going back</a><ul>
+<li><a class="reference internal" href="#orthorhombify.transform"><code class="docutils literal notranslate"><span class="pre">transform()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.back_to_original"><code class="docutils literal notranslate"><span class="pre">back_to_original()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.guess_replicate"><code class="docutils literal notranslate"><span class="pre">guess_replicate()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.parse_matrix"><code class="docutils literal notranslate"><span class="pre">parse_matrix()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lammps-and-charges">LAMMPS and charges</a><ul>
+<li><a class="reference internal" href="#orthorhombify.DEFAULT_CHARGES"><code class="docutils literal notranslate"><span class="pre">orthorhombify.DEFAULT_CHARGES</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.write_lammps_inputs"><code class="docutils literal notranslate"><span class="pre">write_lammps_inputs()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.assign_charges"><code class="docutils literal notranslate"><span class="pre">assign_charges()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.suggest_replicate"><code class="docutils literal notranslate"><span class="pre">suggest_replicate()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.make_input_script"><code class="docutils literal notranslate"><span class="pre">make_input_script()</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.ChargeInfo"><code class="docutils literal notranslate"><span class="pre">ChargeInfo</span></code></a><ul>
+<li><a class="reference internal" href="#orthorhombify.ChargeInfo.charges"><code class="docutils literal notranslate"><span class="pre">ChargeInfo.charges</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.ChargeInfo.net_before"><code class="docutils literal notranslate"><span class="pre">ChargeInfo.net_before</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.ChargeInfo.shift"><code class="docutils literal notranslate"><span class="pre">ChargeInfo.shift</span></code></a></li>
+<li><a class="reference internal" href="#orthorhombify.ChargeInfo.per_element"><code class="docutils literal notranslate"><span class="pre">ChargeInfo.per_element</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#orthorhombify.LammpsFiles"><code class="docutils literal notranslate"><span class="pre">LammpsFiles</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#orthorhombify.example_path"><code class="docutils literal notranslate"><span class="pre">example_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=20623aea"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>
