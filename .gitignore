@@ -12,4 +12,10 @@ log.lammps
 # crystal structures (often from the CSD; do not redistribute). Open examples are kept.
 *.cif
 *.POSCAR
-!examples/*.cif
+!src/orthorhombify/data/*.cif
+
+# packaging
+build/
+dist/
+*.egg-info/
+.pytest_cache/

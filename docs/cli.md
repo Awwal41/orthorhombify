@@ -1,13 +1,19 @@
 # CLI reference
 
-Both scripts print the same list with `--help`.
+Installing the package adds two commands. Both print this list with `--help` and
+their version with `--version`.
+
+| Command | If the command is not found | From a clone, without installing |
+|---------|-----------------------------|----------------------------------|
+| `orthorhombify` | `python -m orthorhombify` | `python orthorhombify_v2.py` |
+| `orthorhombify-lammps` | see [Installation](install.md) | `python make_lammps_inputs.py` |
 
 ---
 
-## orthorhombify_v2.py
+## orthorhombify
 
 ```bash
-python orthorhombify_v2.py FILE [FILE ...] [options]
+orthorhombify FILE [FILE ...] [options]
 ```
 
 `FILE` is one or more CIF files. Wildcards like `"*.cif"` work on every system.
@@ -42,10 +48,10 @@ python orthorhombify_v2.py FILE [FILE ...] [options]
 
 ---
 
-## make_lammps_inputs.py
+## orthorhombify-lammps
 
 ```bash
-python make_lammps_inputs.py FILE [FILE ...] [options]
+orthorhombify-lammps FILE [FILE ...] [options]
 ```
 
 `FILE` is any structure ASE can read: CIF, POSCAR, XYZ with a cell, and so on.

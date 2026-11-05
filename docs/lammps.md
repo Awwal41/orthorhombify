@@ -1,10 +1,10 @@
 # LAMMPS files and charges
 
-`make_lammps_inputs.py` turns a structure (CIF or POSCAR) into a LAMMPS data file with
+`orthorhombify-lammps` turns a structure (CIF or POSCAR) into a LAMMPS data file with
 starting charges, plus an input script that equilibrates it with ReaxFF + QEq.
 
 ```bash
-python make_lammps_inputs.py output/my_crystal_orth_1.cif --outdir lammps --ffield ffield.reax
+orthorhombify-lammps output/my_crystal_orth_1.cif --outdir lammps --ffield ffield.reax
 ```
 
 For each structure you get a folder:
@@ -31,7 +31,7 @@ Only elements in your crystal get a type, always in the order C, H, N, O.
 Change or add a value with `--charge` (repeat it for more elements):
 
 ```bash
-python make_lammps_inputs.py crystal.cif --charge O=-0.35 --charge S=-0.10
+orthorhombify-lammps crystal.cif --charge O=-0.35 --charge S=-0.10
 ```
 
 These are only **starting** values. QEq recomputes the charges at every step of the run.
@@ -113,7 +113,7 @@ Add it to the command. This puts `replicate 3 4 2` in the input script, so LAMMP
 builds the bigger box at the start of the run:
 
 ```bash
-python make_lammps_inputs.py output/FOX7_orth_1.cif --replicate 3 4 2
+orthorhombify-lammps output/FOX7_orth_1.cif --replicate 3 4 2
 ```
 
 ---

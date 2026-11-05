@@ -13,41 +13,44 @@ Open a terminal:
 
 ---
 
-## 1. Copy Orthorhombify
+## 1. Install
 
 ```bash
-git clone https://github.com/Awwal41/orthorhombify.git
-cd orthorhombify
+pip install git+https://github.com/Awwal41/orthorhombify.git
 ```
 
-Stay in this `orthorhombify` folder for every later command.
-
----
-
-## 2. Install the two libraries
-
-```bash
-pip install -r requirements.txt
-```
-
-This installs **NumPy** and **ASE** (the Atomic Simulation Environment).
+This installs Orthorhombify plus **NumPy** and **ASE** (the Atomic Simulation
+Environment), and adds two commands: `orthorhombify` and `orthorhombify-lammps`.
+No `git` on your computer? See [Installation](install.md) for other ways.
 
 Check:
 
 ```bash
-python -c "import ase; print(ase.__version__)"
+orthorhombify --version
 ```
 
-You want a version number, not an error.
+You want `orthorhombify 2.0.0`, not an error.
+
+---
+
+## 2. Try the built-in example (optional)
+
+beta-HMX ships with the package. This prints where it is:
+
+```bash
+python -c "import orthorhombify; print(orthorhombify.example_path())"
+```
+
+Use that path in place of `my_crystal.cif` below to see it work before using your own file.
 
 ---
 
 ## 3. Make the orthorhombic supercell
 
-Put your CIF in the folder, then:
+Open a terminal in the folder with your CIF, then:
 
 ```bash
-python orthorhombify_v2.py my_crystal.cif --max-cells 8 --top 2 --outdir output
+orthorhombify my_crystal.cif --max-cells 8 --top 2 --outdir output
 ```
 
 **Good sign:** the script says what it found, for example
@@ -78,7 +81,7 @@ Open the CIF in VESTA, Ovito or Mercury to look at it.
 ## 4. Make the LAMMPS files
 
 ```bash
-python make_lammps_inputs.py output/my_crystal_orth_1.cif --outdir lammps --ffield ffield.reax
+orthorhombify-lammps output/my_crystal_orth_1.cif --outdir lammps --ffield ffield.reax
 ```
 
 The script prints the net charge and fixes it to zero if needed:
@@ -124,8 +127,8 @@ structure and charges.
 Both scripts accept several files or a wildcard (quote it on Windows too):
 
 ```bash
-python orthorhombify_v2.py "*.cif" --max-cells 8 --top 1 --outdir output
-python make_lammps_inputs.py "output/*_orth_1.cif" --outdir lammps
+orthorhombify "*.cif" --max-cells 8 --top 1 --outdir output
+orthorhombify-lammps "output/*_orth_1.cif" --outdir lammps
 ```
 
 ---
@@ -135,7 +138,8 @@ python make_lammps_inputs.py "output/*_orth_1.cif" --outdir lammps
 | What you see | What to do |
 |--------------|------------|
 | `python` is not recognized | Install Python and tick **Add to PATH**, then open a **new** terminal |
-| `No module named 'ase'` | `pip install -r requirements.txt` |
+| `orthorhombify` is not recognized | Open a **new** terminal; or run `python -m orthorhombify` instead. See [Installation](install.md) |
+| `No module named 'ase'` | Install again: `pip install git+https://github.com/Awwal41/orthorhombify.git` |
 | `No candidates found` | Raise `--max-cells`, or remove `--anis-max` |
 | Very long, thin box | Use the `_orth_2` result, or add `--anis-max 4` |
 | `WARNING: shortest interatomic distance ...` | The CIF symmetry did not expand correctly; check the CIF has a `_symmetry_equiv_pos_as_xyz` loop |

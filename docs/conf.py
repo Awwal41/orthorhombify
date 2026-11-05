@@ -1,18 +1,33 @@
 # Configuration file for the Sphinx documentation builder.
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import sys
 from datetime import datetime
+from pathlib import Path
+
+# Package import path for autodoc
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from orthorhombify import __version__  # noqa: E402
 
 project = "Orthorhombify"
 author = "Awwal Oladipupo"
 copyright = f"{datetime.now().year}, {author}"
-release = "2.0.0"
-version = "2.0"
+release = __version__
+version = ".".join(release.split(".")[:2])
 
 extensions = [
     "myst_parser",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
     "sphinx_copybutton",
 ]
+
+autodoc_typehints = "description"
+autodoc_member_order = "bysource"
+napoleon_google_docstring = True
 
 templates_path = []
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "README.md"]

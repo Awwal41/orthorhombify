@@ -4,11 +4,22 @@ Four energetic molecular crystals, all monoclinic, all space group 14.
 
 **Try it now:** beta-HMX comes from the open
 [Crystallography Open Database](https://www.crystallography.net/cod/4110146.html)
-(COD 4110146) and ships in `examples/`:
+(COD 4110146) and ships inside the package:
+
+```python
+from ase.io import read
+import orthorhombify as orth
+
+atoms = read(orth.example_path("beta_HMX"))
+best = orth.find_supercells(atoms, max_cells=8, top=1)[0]
+print(best.n_cells, best.angles)       # 7 (90.0, 89.999, 90.0)
+```
+
+or from the terminal (in a clone it is `src/orthorhombify/data/beta_HMX.cif`):
 
 ```bash
-python orthorhombify_v2.py examples/beta_HMX.cif --max-cells 8 --top 1 --outdir output
-python make_lammps_inputs.py output/beta_HMX_orth_1.cif --outdir lammps
+orthorhombify path/to/beta_HMX.cif --max-cells 8 --top 1 --outdir output
+orthorhombify-lammps output/beta_HMX_orth_1.cif --outdir lammps
 ```
 
 The other three come from the Cambridge Structural Database (CSD) and are **not** in this

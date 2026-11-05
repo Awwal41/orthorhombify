@@ -1,11 +1,11 @@
 # Orthorhombify (the supercell search)
 
-`orthorhombify_v2.py` finds a new box made of whole lattice vectors whose angles are as
+The `orthorhombify` command finds a new box made of whole lattice vectors whose angles are as
 close to 90 degrees as possible. Because it only recombines lattice vectors, the crystal
 is **not strained**: every atom keeps its exact environment. The new box is just bigger.
 
 ```bash
-python orthorhombify_v2.py my_crystal.cif --max-cells 8 --top 2 --outdir output
+orthorhombify my_crystal.cif --max-cells 8 --top 2 --outdir output
 ```
 
 ---
@@ -79,7 +79,7 @@ The result is usually a few hundredths of a degree off 90. Most MD codes are fin
 that: LAMMPS handles the small tilt. If your code needs an exactly orthogonal box:
 
 ```bash
-python orthorhombify_v2.py my_crystal.cif --force-orthogonal
+orthorhombify my_crystal.cif --force-orthogonal
 ```
 
 This squares the box and keeps the fractional coordinates. It introduces a tiny strain,

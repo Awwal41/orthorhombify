@@ -6,10 +6,13 @@ site with **Sphinx** + **MyST**, published at https://awwal41.github.io/orthorho
 | Guide | When to read it |
 |-------|-----------------|
 | [Getting started](getting-started.md) | **Start here**: install, convert one crystal, make LAMMPS files |
+| [Installation](install.md) | pip, venv, conda, HPC, from source |
 | [Orthorhombify](orthorhombify.md) | How the supercell search works and how to tune it |
 | [LAMMPS files and charges](lammps.md) | Starting charges, neutralizing, what the input script does |
+| [Using it from Python](python-api.md) | The Python API with worked examples |
 | [Examples](examples.md) | beta-HMX, MDNT, TNT and FOX-7 |
-| [CLI reference](cli.md) | Every option of both scripts |
+| [CLI reference](cli.md) | Every option of both commands |
+| [`api.rst`](api.rst) | Function reference (built from the docstrings) |
 
 ## Build the HTML locally
 

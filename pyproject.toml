@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orthorhombify"
+dynamic = ["version"]
+description = "Turn monoclinic or triclinic crystals into near-orthorhombic supercells (no strain) and write LAMMPS ReaxFF + QEq inputs with starting charges."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Awwal Oladipupo", email = "awwaloladipupo@gmail.com" }]
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.22", "ase>=3.22"]
+keywords = ["crystallography", "supercell", "orthorhombic", "monoclinic", "LAMMPS", "ReaxFF", "ASE"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+docs = ["sphinx>=7.0", "myst-parser>=3.0", "furo>=2024.1.0", "sphinx-copybutton>=0.5"]
+
+[project.scripts]
+orthorhombify = "orthorhombify.cli:orthorhombify_main"
+orthorhombify-lammps = "orthorhombify.cli:lammps_main"
+
+[project.urls]
+Documentation = "https://awwal41.github.io/orthorhombify/"
+Source = "https://github.com/Awwal41/orthorhombify"
+Issues = "https://github.com/Awwal41/orthorhombify/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "orthorhombify.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+orthorhombify = ["data/*.cif"]

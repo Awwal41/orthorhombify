@@ -10,8 +10,11 @@ Changelog
 * Best-angle-per-box-size table, ``--tol`` for the smallest good-enough box
 * ``--force-orthogonal`` with printed strain
 * Several input files and wildcards in one run
-* New ``make_lammps_inputs.py``: LAMMPS data file with per-element starting charges
-  (neutralized by default) and a ReaxFF + QEq minimize / NVT / NPT input script
+* LAMMPS writer: data file with per-element starting charges (neutralized by default)
+  and a ReaxFF + QEq minimize / NVT / NPT input script
+* Installable package (``pip install``) with ``orthorhombify`` and
+  ``orthorhombify-lammps`` commands and a Python API
+* beta-HMX example bundled (``orthorhombify.example_path()``), pytest suite
 * Sphinx documentation
 
 1.0.0
