@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+docs/_build/
+
+# generated structures and LAMMPS runs
+output/
+lammps/
+*.lammpstrj
+log.lammps
+
+# crystal structures (often from the CSD; do not redistribute). Open examples are kept.
+*.cif
+*.POSCAR
+!examples/*.cif
