@@ -11,7 +11,7 @@ Supercells
 .. autofunction:: orthorhombify.find_supercells
 
 .. autoclass:: orthorhombify.Candidate
-   :members: build
+   :members: build, mapping
 
 .. autofunction:: orthorhombify.best_angle_by_size
 
@@ -20,6 +20,25 @@ Supercells
 .. autofunction:: orthorhombify.build_supercell
 
 .. autofunction:: orthorhombify.min_distance
+
+Lattice directions
+------------------
+
+.. autoclass:: orthorhombify.LatticeMapping
+   :members:
+
+.. autofunction:: orthorhombify.write_mapping_json
+
+Other cells and going back
+--------------------------
+
+.. autofunction:: orthorhombify.transform
+
+.. autofunction:: orthorhombify.back_to_original
+
+.. autofunction:: orthorhombify.guess_replicate
+
+.. autofunction:: orthorhombify.parse_matrix
 
 LAMMPS and charges
 ------------------

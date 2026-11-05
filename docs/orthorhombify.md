@@ -12,13 +12,20 @@ orthorhombify my_crystal.cif --max-cells 8 --top 2 --outdir output
 
 ## What it does with each kind of cell
 
-The script reads the three cell angles and picks a method by itself.
+The script reads the cell lengths and angles and picks a method by itself. All seven
+crystal systems are covered:
 
-| Your cell | What happens |
-|-----------|--------------|
-| **Monoclinic** (one angle is not 90) | Exact 2D search. See below. |
-| **Triclinic** (two or three angles are not 90) | 3D search over integer supercells and axis shears (the original v1 method). |
-| **Orthorhombic** (all 90) | Nothing to do. The cell is written out unchanged. |
+| Cell shape | Looks like | What happens | Typical result |
+|------------|------------|--------------|----------------|
+| **Cubic, tetragonal, orthorhombic** | all angles 90 | Nothing to do; written unchanged | N = 1 |
+| **Monoclinic** | one angle is not 90 | Exact 2D search (below) | within 0.001 to 0.5 degrees, N = 1 to 8 |
+| **Hexagonal** (and trigonal in hexagonal axes) | a = b, gamma = 120 (or 60) | Exact 2D search | **exactly 90**, N = 2 (a, a + 2b, c) |
+| **Rhombohedral** (trigonal in rhombohedral axes) | a = b = c, alpha = beta = gamma | 3D search | **exactly 90**, N = 6 |
+| **Triclinic** | anything else | 3D search (below) | usually 1 to 4 degrees with N up to 8 to 12 |
+
+The name printed (for example `Cell shape is HEXAGONAL`) describes the **shape of the
+cell**, not its symmetry. A primitive cell of a centred lattice can look monoclinic or
+rhombohedral even if the crystal is orthorhombic or cubic; the search still works.
 
 ### Monoclinic
 
@@ -43,18 +50,39 @@ It works for every monoclinic setting:
 | `P 1 1 21/b`, `P 1 1 21/a` | c | gamma |
 | `P 21/b 1 1` | a | alpha |
 
-### Triclinic
+### Hexagonal
 
-All three angles can be off, so the search is in 3D: every Hermite normal form supercell
-up to `--max-cells`, combined with a small set of axis permutations and shears. It is
-slower and less exhaustive than the monoclinic search. The triclinic-only flags
-(`--unimod`, `--fast`, `--gate`, `--stop-on-tol`) control it. See [CLI](cli.md).
+A hexagonal cell is a monoclinic-shaped cell with a = b and gamma = 120. The 2D search
+finds the classic orthohexagonal cell `a' = a`, `b' = a + 2b`, `c' = c`, which is exactly
+rectangular, with twice the atoms.
+
+### Triclinic and rhombohedral
+
+All three angles can be off, so the search is in 3D. Every short lattice vector
+`u*a + v*b + w*c` (whole numbers up to `--max-index`, default 5) is tried; the most
+perpendicular pairs are completed with the best third vector, keeping the box at most
+`--max-cells` unit cells. The three new axes are then ordered so each one is as close
+as possible to the old axis of the same name.
+
+For a rhombohedral cell this finds the exact orthorhombic box of 6 cells. For a general
+triclinic cell no exact answer exists; bigger boxes get closer:
+
+| Triclinic test cell | N <= 3 | N <= 8 | N <= 12 |
+|---------------------|--------|--------|---------|
+| 6.5, 11.0, 8.7 Å, 95/103/88 | 4.04 | 3.78 | |
+| 7.1, 8.3, 9.2 Å, 101/96/105 | | 2.23 | 1.42 |
+
+(largest angle deviation from 90, degrees)
+
+`--method hnf` runs the original v1 search instead (with `--unimod`, `--fast`, `--gate`,
+`--stop-on-tol`). It is slower and usually worse: 6.0 degrees for the second cell above.
 
 ---
 
 ## Choosing a result
 
-For monoclinic cells the script prints the best angle you can get for each box size:
+For monoclinic, hexagonal, rhombohedral and triclinic cells the script prints the best
+angle it found for each box size:
 
 ```text
 Best possible angle deviation by supercell size N (x unit cell):
@@ -93,6 +121,7 @@ which is printed (for example `max Green-Lagrange strain = 5.67e-04` for FOX-7).
 |------|----------|
 | `<name>_orth_1.cif` | Best supercell, space group P1, all atoms listed |
 | `<name>_orth_1.POSCAR` | Same structure for VASP / other codes |
+| `<name>_orth_1.json` | The transformation, both cells, and how every axis and plane maps (see [Lattice directions](lattice-directions.md)). Keep it: it lets you go back later |
 | `<name>_orth_2.*` | Runner-up (with `--top 2`) |
 
 The cell is rotated so **a** points along x and **b** lies in the xy plane (the LAMMPS

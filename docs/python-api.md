@@ -92,6 +92,39 @@ for the full signatures.
 
 ---
 
+## Lattice directions
+
+```python
+m = best.mapping                       # LatticeMapping, exact fractions
+print(m.summary(atoms.cell))           # the table printed by the command
+m.new_axis_expressions()               # ["a + c", "b", "-4a + 3c"]
+m.direction_to_new([1, 1, 0])          # old [1 1 0] in the new cell: [3/7, 1, -1/7]
+m.plane_to_old([0, 0, 1])              # new (0 0 1) plane in the old cell: [-1, 0, 1]
+m.inverse()                            # the mapping the other way round
+```
+
+Any matrix works, not only results of the search: `orth.LatticeMapping([[1, 0, 1], [0, 1, 0], [-4, 0, 3]])`.
+More in [Lattice directions](lattice-directions.md).
+
+---
+
+## Other cells and going back
+
+```python
+# any cell change: new cell = P @ old cell (fractions allowed)
+hexagonal = orth.transform(orthohexagonal, "1 0 0; -1/2 1/2 0; 0 0 1")
+
+# back to the original cell after LAMMPS (replicate is worked out from the box)
+eq = read("lammps/my_crystal/my_crystal_equil.data", format="lammps-data",
+          atom_style="charge", units="real")
+original = orth.back_to_original(eq, "output/my_crystal_orth_1.json")
+original.info["orthorhombify_replicate"], original.info["orthorhombify_spread"]
+```
+
+More in [Going back and other cells](transform.md).
+
+---
+
 ## Many crystals in a loop
 
 ```python

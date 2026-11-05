@@ -10,9 +10,11 @@ import warnings
 import numpy as np
 
 from . import __version__
-from .core import (ANGLE_NAMES, AXES, best_angle_by_size, detect_system, find_supercells,
-                   min_distance)
-from .lammps import DEFAULT_CHARGES, is_orthogonal, species_order, suggest_replicate, write_lammps_inputs
+from .core import (ANGLE_NAMES, AXES, ORTHOGONAL_SYSTEMS, best_angle_by_size, detect_system,
+                   find_supercells, min_distance)
+from .lammps import DEFAULT_CHARGES, is_orthogonal, suggest_replicate, write_lammps_inputs
+from .mapping import LatticeMapping, write_mapping_json
+from .transform import back_to_original, parse_matrix, transform
 
 
 def _read(path):
@@ -21,7 +23,18 @@ def _read(path):
         # ASE warns about the 'monoclinic' cell-setting tag even when the CIF's explicit
         # symmetry operators (which it uses) are present; min_distance() catches real problems.
         warnings.filterwarnings("ignore", message="crystal system .* is not interpreted")
+        if path.lower().endswith((".data", ".lmp")):
+            return read(path, format="lammps-data", atom_style="charge", units="real")
         return read(path)
+
+def _write_structure(out, atoms):
+    from ase.io import write
+    write(out + ".cif", atoms)
+    write(out + ".POSCAR", atoms, format="vasp", direct=True, sort=True)
+
+def _print_cell(label, atoms):
+    print("  {}: a,b,c = {:.4f}, {:.4f}, {:.4f} A   alpha,beta,gamma = {:.3f}, {:.3f}, {:.3f} deg"
+          .format(label, *atoms.cell.cellpar()))
 
 def _expand(patterns):
     # Windows shells do not expand wildcards, so do it here
@@ -36,16 +49,15 @@ def _fmt_matrix(P):
 
 # ---------- orthorhombify ----------
 def _orthorhombify_one(path, args):
-    from ase.io import write
-
     atoms = _read(path)
     stem = os.path.splitext(os.path.basename(path))[0]
     cellpar = atoms.cell.cellpar()
     system, uniq = detect_system(atoms, args.angle_tol)
-    if args.mode != "auto":
-        system = args.mode
-        if system == "monoclinic":
-            uniq = int(np.argmax(np.abs(cellpar[3:] - 90.0)))
+    if args.mode == "monoclinic":
+        system = "monoclinic"
+        uniq = uniq if uniq is not None else int(np.argmax(np.abs(cellpar[3:] - 90.0)))
+    elif args.mode == "triclinic":
+        system = "triclinic"
 
     print("=" * 78)
     print(path)
@@ -57,23 +69,27 @@ def _orthorhombify_one(path, args):
         print(f"  WARNING: shortest interatomic distance is {dmin:.3f} A; the CIF symmetry "
               f"expansion may be wrong (check for duplicate/overlapping atoms).")
 
-    if system == "orthorhombic":
-        print("  Already orthorhombic within --angle-tol; writing the cell unchanged.")
-    elif system == "monoclinic":
-        print(f"  Detected MONOCLINIC, unique axis {AXES[uniq]} "
-              f"({ANGLE_NAMES[uniq]} = {cellpar[3 + uniq]:.3f} deg is the only non-90 angle).")
+    if system in ORTHOGONAL_SYSTEMS:
+        print(f"  Cell shape is {system.upper()} (all angles 90 within --angle-tol); "
+              "writing the cell unchanged.")
+    elif system in ("monoclinic", "hexagonal"):
+        print(f"  Cell shape is {system.upper()}, unique axis {AXES[uniq]} "
+              f"({ANGLE_NAMES[uniq]} = {cellpar[3 + uniq]:.3f} deg is the only non-90 angle); "
+              "using the exact 2D search.")
+    else:
+        how = "the original HNF search" if args.method == "hnf" else "the 3D lattice-vector search"
+        print(f"  Cell shape is {system.upper()}; using {how}.")
+    if system not in ORTHOGONAL_SYSTEMS and args.method != "hnf":
         table = best_angle_by_size(atoms, args.max_cells, max_index=args.max_index,
-                                   angle_tol=args.angle_tol)
+                                   angle_tol=args.angle_tol, mode=args.mode)
         if table:
             print("  Best possible angle deviation by supercell size N (x unit cell):")
             print("    " + "  ".join(f"N={n}: {d:.3f}" for n, d in table.items()))
-    else:
-        print("  Detected TRICLINIC; using the 3D HNF x unimodular search.")
 
     results = find_supercells(
-        atoms, args.max_cells, args.top, mode=args.mode, angle_tol=args.angle_tol, tol=args.tol,
-        anis_max=args.anis_max, max_index=args.max_index, unimod=args.unimod, fast=args.fast,
-        gate=args.gate, stop_on_tol=args.stop_on_tol)
+        atoms, args.max_cells, args.top, mode=args.mode, method=args.method,
+        angle_tol=args.angle_tol, tol=args.tol, anis_max=args.anis_max, max_index=args.max_index,
+        unimod=args.unimod, fast=args.fast, gate=args.gate, stop_on_tol=args.stop_on_tol)
     if not results:
         print("  No candidates found. Increase --max-cells / --max-index, or relax --anis-max / --gate.",
               file=sys.stderr)
@@ -83,8 +99,10 @@ def _orthorhombify_one(path, args):
     for rank, cand in enumerate(results, 1):
         sc = cand.build(atoms, force_orthogonal=args.force_orthogonal)
         out = os.path.join(args.outdir, f"{stem}_orth_{rank}")
-        write(out + ".cif", sc)
-        write(out + ".POSCAR", sc, format="vasp", direct=True, sort=True)
+        _write_structure(out, sc)
+        write_mapping_json(out + ".json", cand.mapping, atoms, sc, source=os.path.basename(path),
+                           n_cells=cand.n_cells, max_angle_deviation_deg=round(cand.max_dev, 6),
+                           strain=sc.info["orthorhombify_strain"])
         print(f"  [{rank}] N={cand.n_cells} ({len(sc)} atoms)  P={_fmt_matrix(cand.P)}")
         print("       a,b,c = {:.4f}, {:.4f}, {:.4f} A   angles = {:.3f}, {:.3f}, {:.3f} deg   "
               "max dev = {:.3f} deg  anis = {:.2f}".format(*cand.lengths, *cand.angles,
@@ -92,7 +110,8 @@ def _orthorhombify_one(path, args):
         if args.force_orthogonal:
             print(f"       forced to exactly 90/90/90; max Green-Lagrange strain = "
                   f"{sc.info['orthorhombify_strain']:.2e}")
-        print(f"       -> {out}.cif / {out}.POSCAR")
+        print(cand.mapping.summary(atoms.cell.array, indent="       "))
+        print(f"       -> {out}.cif / .POSCAR / .json")
     return True
 
 
@@ -103,13 +122,16 @@ def orthorhombify_main(argv=None):
     ap.add_argument("cif", nargs="+", help="One or more input CIF files (wildcards allowed)")
     ap.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     ap.add_argument("--mode", choices=["auto", "monoclinic", "triclinic"], default="auto",
-                    help="Force a search type. Default: auto-detect from the cell angles.")
+                    help="Force a search type: monoclinic = 2D search around the unique axis, "
+                         "triclinic = 3D search. Default: pick from the cell shape.")
+    ap.add_argument("--method", choices=["vectors", "hnf"], default="vectors",
+                    help="3D search method. vectors (default) is fast and thorough; hnf is the original v1 search.")
     ap.add_argument("--angle-tol", type=float, default=1e-3,
                     help="An angle counts as 90 deg if within this many degrees (detection). Default: 1e-3.")
     ap.add_argument("--max-cells", type=int, default=6,
                     help="Max supercell size N = det(P), i.e. number of unit cells. Default: 6.")
-    ap.add_argument("--max-index", type=int, default=12,
-                    help="[monoclinic] Max |integer coefficient| for the in-plane vectors. Default: 12.")
+    ap.add_argument("--max-index", type=int, default=None,
+                    help="Max |integer coefficient| tried for the new axes. Default: 12 (2D search), 5 (3D search).")
     ap.add_argument("--top", type=int, default=2, help="How many best solutions to export (1..5). Default: 2.")
     ap.add_argument("--tol", type=float, default=None,
                     help="Angle tolerance (deg). [monoclinic] prefer the SMALLEST supercell whose angle "
@@ -120,15 +142,90 @@ def orthorhombify_main(argv=None):
                     help="Set the final cell to exactly 90/90/90 (keeps fractional coords; introduces a "
                          "small strain, which is reported).")
     ap.add_argument("--outdir", default=".", help="Output directory. Default: current directory.")
-    ap.add_argument("--unimod", type=int, default=2, help="[triclinic] Unimodular shear coeff limit. Default: 2.")
-    ap.add_argument("--fast", action="store_true", help="[triclinic] Only diagonal H.")
-    ap.add_argument("--gate", type=float, default=None, help="[triclinic] Angle-sum gate (deg), e.g. 12.")
-    ap.add_argument("--stop-on-tol", action="store_true", help="[triclinic] Stop once sum dev <= 3*tol.")
+    ap.add_argument("--unimod", type=int, default=2, help="[--method hnf] Unimodular shear coeff limit. Default: 2.")
+    ap.add_argument("--fast", action="store_true", help="[--method hnf] Only diagonal H.")
+    ap.add_argument("--gate", type=float, default=None, help="[--method hnf] Angle-sum gate (deg), e.g. 12.")
+    ap.add_argument("--stop-on-tol", action="store_true", help="[--method hnf] Stop once sum dev <= 3*tol.")
     args = ap.parse_args(argv)
 
     if not 1 <= args.top <= 5:
         ap.error("--top must be between 1 and 5.")
     ok = [_orthorhombify_one(p, args) for p in _expand(args.cif)]
+    return 0 if all(ok) else 2
+
+
+# ---------- orthorhombify-transform ----------
+def _transform_one(path, args):
+    import json
+
+    atoms = _read(path)
+    stem = os.path.splitext(os.path.basename(path))[0]
+    print("=" * 78)
+    print(path)
+    print(f"  {len(atoms)} atoms, {atoms.get_chemical_formula()}")
+    _print_cell("input ", atoms)
+    try:
+        if args.inverse:
+            out = back_to_original(atoms, args.inverse, replicate=args.replicate,
+                                   reduce=args.reduce, tol=args.tol)
+        else:
+            out = transform(atoms, parse_matrix(args.matrix), reduce=args.reduce, tol=args.tol)
+    except ValueError as err:
+        print(f"  ERROR: {err}", file=sys.stderr)
+        return False
+
+    mapping = LatticeMapping(out.info["orthorhombify_P"])
+    _print_cell("output", out)
+    print(f"  {len(out)} atoms in the new cell (det = {mapping.det}); method: {out.info['orthorhombify_reduce']}"
+          + (f", copies of each atom agree within {out.info['orthorhombify_spread']:.3f} A"
+             if "orthorhombify_spread" in out.info else ""))
+    if "orthorhombify_warning" in out.info:
+        print(f"  WARNING: {out.info['orthorhombify_warning']}")
+    if args.inverse:
+        reps = out.info["orthorhombify_replicate"]
+        with open(args.inverse) as fd:
+            ref = json.load(fd)["old_cell"]
+        if tuple(reps) != (1, 1, 1):
+            print(f"  undid LAMMPS replicate {reps[0]} {reps[1]} {reps[2]}")
+        names = ("a", "b", "c", "alpha", "beta", "gamma")
+        print("  change vs the original cell in " + os.path.basename(args.inverse) + ":")
+        print("    " + "   ".join(f"{n} {ref[n]:.4f} -> {v:.4f} ({100 * (v - ref[n]) / ref[n]:+.2f}%)"
+                                  for n, v in zip(names, out.cell.cellpar())))
+    print(mapping.summary(atoms.cell.array, indent="  "))
+
+    os.makedirs(args.outdir, exist_ok=True)
+    out_stem = os.path.join(args.outdir, stem + (args.suffix or ("_original" if args.inverse else "_transformed")))
+    _write_structure(out_stem, out)
+    write_mapping_json(out_stem + ".json", mapping, atoms, out, source=os.path.basename(path),
+                       method=out.info["orthorhombify_reduce"])
+    print(f"  -> {out_stem}.cif / .POSCAR / .json")
+    return True
+
+
+def transform_main(argv=None):
+    ap = argparse.ArgumentParser(
+        prog="orthorhombify-transform",
+        description="Apply any cell transformation (bigger or smaller cell), or undo an orthorhombify "
+                    "step to get back to the original cell (for example after a LAMMPS run).")
+    ap.add_argument("files", nargs="+", help="Structure files (CIF, POSCAR, LAMMPS .data, ...); wildcards allowed")
+    ap.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
+    how = ap.add_mutually_exclusive_group(required=True)
+    how.add_argument("--matrix", metavar="'P'",
+                     help="new_cell = P @ old_cell. Rows separated by ';', fractions allowed, e.g. "
+                          "'1 0 1; 0 1 0; -4 0 3' or '1/2 -1/2 0; 1/2 1/2 0; 0 0 1'. Three numbers = diagonal.")
+    how.add_argument("--inverse", metavar="JSON",
+                     help="Go back to the original cell using the .json written by orthorhombify.")
+    ap.add_argument("--replicate", type=int, nargs=3, metavar=("NX", "NY", "NZ"),
+                    help="[--inverse] LAMMPS replicate used on the supercell. Default: worked out from the box.")
+    ap.add_argument("--reduce", choices=["auto", "average", "dedup"], default="auto",
+                    help="How to fill a smaller cell: average the copies of each atom (needs Orthorhombify "
+                         "atom order, e.g. after LAMMPS), or merge folded atoms closer than --tol. Default: auto.")
+    ap.add_argument("--tol", type=float, default=0.5, help="Merge / spread tolerance (A). Default: 0.5")
+    ap.add_argument("--outdir", default=".", help="Output directory. Default: current directory.")
+    ap.add_argument("--suffix", default=None,
+                    help="Added to the file name. Default: _original (--inverse) or _transformed.")
+    args = ap.parse_args(argv)
+    ok = [_transform_one(p, args) for p in _expand(args.files)]
     return 0 if all(ok) else 2
 
 

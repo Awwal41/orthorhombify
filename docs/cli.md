@@ -1,12 +1,13 @@
 # CLI reference
 
-Installing the package adds two commands. Both print this list with `--help` and
+Installing the package adds three commands. All print this list with `--help` and
 their version with `--version`.
 
-| Command | If the command is not found | From a clone, without installing |
-|---------|-----------------------------|----------------------------------|
-| `orthorhombify` | `python -m orthorhombify` | `python orthorhombify_v2.py` |
-| `orthorhombify-lammps` | see [Installation](install.md) | `python make_lammps_inputs.py` |
+| Command | What it does | From a clone, without installing |
+|---------|--------------|----------------------------------|
+| `orthorhombify` | Find near-orthorhombic supercells (also `python -m orthorhombify`) | `python orthorhombify_v2.py` |
+| `orthorhombify-lammps` | LAMMPS data + input files with charges | `python make_lammps_inputs.py` |
+| `orthorhombify-transform` | Any other cell, or back to the original | - |
 
 ---
 
@@ -17,6 +18,8 @@ orthorhombify FILE [FILE ...] [options]
 ```
 
 `FILE` is one or more CIF files. Wildcards like `"*.cif"` work on every system.
+For every result it writes `.cif`, `.POSCAR` and `.json` and prints the
+[lattice directions](lattice-directions.md).
 
 ### Main options
 
@@ -24,7 +27,7 @@ orthorhombify FILE [FILE ...] [options]
 |--------|---------|--------------|
 | `--max-cells N` | 6 | Largest box to try, in unit cells |
 | `--top K` | 2 | How many results to write (1 to 5) |
-| `--tol T` | off | Monoclinic: pick the **smallest** box within T degrees of 90 |
+| `--tol T` | off | Pick the **smallest** box within T degrees of 90 |
 | `--anis-max R` | off | Skip boxes whose longest edge is more than R times the shortest |
 | `--force-orthogonal` | off | Make the final box exactly 90/90/90 (small strain, printed) |
 | `--outdir DIR` | `.` | Where to write the files |
@@ -33,11 +36,12 @@ orthorhombify FILE [FILE ...] [options]
 
 | Option | Default | What it does |
 |--------|---------|--------------|
-| `--mode` | `auto` | `auto`, `monoclinic` or `triclinic`. Overrides detection |
+| `--mode` | `auto` | `auto` (from the cell shape), `monoclinic` (2D search) or `triclinic` (3D search) |
+| `--method` | `vectors` | 3D search: `vectors` (fast, thorough) or `hnf` (the original v1 search) |
 | `--angle-tol` | 0.001 | How close to 90 an angle must be to count as 90 |
-| `--max-index M` | 12 | Monoclinic: largest whole-number coefficient tried |
+| `--max-index M` | 12 (2D), 5 (3D) | Largest whole-number coefficient tried for the new axes |
 
-### Triclinic only
+### `--method hnf` only
 
 | Option | Default | What it does |
 |--------|---------|--------------|
@@ -85,3 +89,24 @@ orthorhombify-lammps FILE [FILE ...] [options]
 | `--replicate NX NY NZ` | off | Enlarge the box in LAMMPS |
 | `--min-length L` | 20 | Warn if a box edge is shorter than L Å |
 | `--outdir DIR` | `lammps` | Where to write the folders |
+
+---
+
+## orthorhombify-transform
+
+```bash
+orthorhombify-transform FILE [FILE ...] (--matrix "P" | --inverse JSON) [options]
+```
+
+`FILE` is any structure ASE can read; LAMMPS `.data` files (atom_style charge) are read
+directly. See [Going back and other cells](transform.md).
+
+| Option | Default | What it does |
+|--------|---------|--------------|
+| `--matrix "P"` | | New cell = P @ old cell. Rows split by `;`, fractions allowed, 3 numbers = diagonal |
+| `--inverse JSON` | | Back to the original cell, using the `.json` written by `orthorhombify` |
+| `--replicate NX NY NZ` | worked out | With `--inverse`: the LAMMPS replicate to undo |
+| `--reduce` | `auto` | Smaller cell: `average` the copies of each atom, or `dedup` (merge folded atoms) |
+| `--tol T` | 0.5 | Merge distance / allowed spread between copies (Å) |
+| `--outdir DIR` | `.` | Where to write the files |
+| `--suffix S` | `_original` / `_transformed` | Added to the output file name |

@@ -1,12 +1,23 @@
 # Orthorhombify
 
-Turn a **monoclinic** or **triclinic** crystal into a near-**orthorhombic** supercell
-(all angles close to 90 degrees), then write **LAMMPS** files with starting charges
-for a ReaxFF + QEq equilibration.
+Turn any crystal (**monoclinic**, **hexagonal**, **rhombohedral** or **triclinic**) into a
+near-**orthorhombic** supercell (all angles close to 90 degrees), see which **lattice
+directions** the new axes follow, write **LAMMPS** files with starting charges for a
+ReaxFF + QEq equilibration, and go **back to the original cell** afterwards.
 
 - No strain: the new box is built only from whole lattice vectors.
-- Works on any monoclinic setting (`P 21/c`, `P 21/n`, `P 1 1 21/b`, ...).
-- Two terminal commands and a Python API. Needs only NumPy and ASE.
+- Works on any setting (`P 21/c`, `P 21/n`, `P 1 1 21/b`, `P 63/mmc`, `R -3`, `P -1`, ...).
+- Hexagonal and rhombohedral cells become exactly orthorhombic.
+- Every result says how its axes and planes are made of the old ones (`a' = a + c`, ...).
+- Three terminal commands and a Python API. Needs only NumPy and ASE.
+
+| Cell shape | What you get |
+|------------|--------------|
+| cubic, tetragonal, orthorhombic | already orthogonal, nothing to do |
+| monoclinic | best box around the unique axis (exact 2D search) |
+| hexagonal | exact orthohexagonal box, 2 cells |
+| rhombohedral | exact box, 6 cells |
+| triclinic | best box from a 3D search (closer to 90 with more cells) |
 
 Documentation: **https://awwal41.github.io/orthorhombify/**
 
@@ -29,7 +40,17 @@ More options (venv, conda, HPC, from source) in the [install guide](https://awwa
 orthorhombify my_crystal.cif --max-cells 8 --top 2 --outdir output
 ```
 
-You get `output/my_crystal_orth_1.cif` and `.POSCAR` (best), `_orth_2` (runner-up).
+You get `output/my_crystal_orth_1.cif`, `.POSCAR` and `.json` (best), `_orth_2` (runner-up).
+The terminal (and the `.json`) shows the lattice directions, e.g. for beta-HMX:
+
+```text
+new a' = a + c               along old [1 0 1]         55.05 deg from old a
+new b' = b                   along old [0 1 0]          0.00 deg from old b
+new c' = -4a + 3c            along old [-4 0 3]        42.99 deg from old c
+old a  = (3/7)a' - (1/7)c'   along new [3 0 -1]
+old c  = (4/7)a' + (1/7)c'   along new [4 0 1]
+new (0 0 1) = old (-1 0 1)       old (0 0 1) = new (1 0 3)
+```
 
 **2. Make the LAMMPS files**
 
@@ -46,6 +67,15 @@ cd lammps/my_crystal_orth_1
 lmp -in in.my_crystal_orth_1
 ```
 
+**4. Back to the original cell** (from the starting folder)
+
+```bash
+orthorhombify-transform lammps/my_crystal_orth_1/my_crystal_orth_1_equil.data --inverse output/my_crystal_orth_1.json
+```
+
+The same command goes from any cell to any other with `--matrix`, e.g. orthohexagonal
+to hexagonal: `--matrix "1 0 0; -1/2 1/2 0; 0 0 1"`.
+
 ## Use from Python
 
 ```python
@@ -55,6 +85,7 @@ import orthorhombify as orth
 atoms = read("my_crystal.cif")               # or read(orth.example_path()) for beta-HMX
 best = orth.find_supercells(atoms, max_cells=8, top=1)[0]
 supercell = best.build(atoms)
+print(best.mapping.summary(atoms.cell))      # lattice directions old <-> new
 orth.write_lammps_inputs(supercell, "lammps/my_crystal", "my_crystal", ffield="ffield.reax")
 ```
 

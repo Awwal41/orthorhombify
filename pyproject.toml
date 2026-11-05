@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "orthorhombify"
 dynamic = ["version"]
-description = "Turn monoclinic or triclinic crystals into near-orthorhombic supercells (no strain) and write LAMMPS ReaxFF + QEq inputs with starting charges."
+description = "Turn monoclinic, hexagonal, rhombohedral or triclinic crystals into near-orthorhombic supercells (no strain), map the lattice directions between them, write LAMMPS ReaxFF + QEq inputs with starting charges, and transform back."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -28,6 +28,7 @@ docs = ["sphinx>=7.0", "myst-parser>=3.0", "furo>=2024.1.0", "sphinx-copybutton>
 [project.scripts]
 orthorhombify = "orthorhombify.cli:orthorhombify_main"
 orthorhombify-lammps = "orthorhombify.cli:lammps_main"
+orthorhombify-transform = "orthorhombify.cli:transform_main"
 
 [project.urls]
 Documentation = "https://awwal41.github.io/orthorhombify/"

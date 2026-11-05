@@ -1,4 +1,4 @@
-# Getting started
+﻿# Getting started
 
 From a CIF file to a running LAMMPS equilibration in a few steps.
 
@@ -7,7 +7,7 @@ you also need LAMMPS (built with the `REAXFF` package) and a ReaxFF force-field 
 
 Open a terminal:
 
-- Windows: **PowerShell** (Start menu → type `powershell`)
+- Windows: **PowerShell** (Start menu â†’ type `powershell`)
 - macOS: **Terminal**
 - Linux: your usual terminal
 
@@ -29,7 +29,7 @@ Check:
 orthorhombify --version
 ```
 
-You want `orthorhombify 2.0.0`, not an error.
+You want `orthorhombify 2.1.0`, not an error.
 
 ---
 
@@ -119,6 +119,21 @@ Your LAMMPS program may be called `lmp_serial`, `lmp_mpi` or `lmp`. In parallel:
 The log prints the average C, H, N and O charge every 100 steps so you can watch QEq
 update them. At the end you get `my_crystal_orth_1_equil.data` with the equilibrated
 structure and charges.
+
+---
+
+## 6. Back to the original cell (optional)
+
+Run this from the folder where you started (the one that holds `output/`):
+
+```bash
+orthorhombify-transform lammps/my_crystal_orth_1/my_crystal_orth_1_equil.data \
+    --inverse output/my_crystal_orth_1.json
+```
+
+You get `my_crystal_orth_1_equil_original.cif` in the original cell, with the
+equilibrated lattice and averaged charges, plus how much each lattice parameter changed.
+See [Going back and other cells](transform.md).
 
 ---
 

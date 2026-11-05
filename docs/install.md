@@ -1,4 +1,4 @@
-# Installation
+﻿# Installation
 
 Orthorhombify is a normal Python package. It needs **Python 3.9 or newer** and pulls
 in **NumPy** and **ASE** by itself.
@@ -11,7 +11,7 @@ in **NumPy** and **ASE** by itself.
 |----------|-----|
 | `git` installed (most people) | `pip install git+https://github.com/Awwal41/orthorhombify.git` |
 | No `git` | `pip install https://github.com/Awwal41/orthorhombify/archive/refs/heads/main.zip` |
-| A specific release | `pip install https://github.com/Awwal41/orthorhombify/releases/download/v2.0.0/orthorhombify-2.0.0-py3-none-any.whl` |
+| A specific release | `pip install https://github.com/Awwal41/orthorhombify/releases/download/v2.1.0/orthorhombify-2.1.0-py3-none-any.whl` |
 | You want to edit the code | see [From source](#from-source) below |
 
 Upgrade later with the same command plus `--upgrade`.
@@ -61,7 +61,7 @@ orthorhombify-lammps --version
 python -c "import orthorhombify; print(orthorhombify.__version__)"
 ```
 
-All three should print `2.0.0`.
+All three should print `2.1.0`.
 
 ---
 
